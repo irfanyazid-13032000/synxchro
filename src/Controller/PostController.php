@@ -63,7 +63,9 @@ class PostController extends AbstractController
     #[Route('/update/{id}', name: 'update')]
     public function update(EntityManagerInterface $entityManager, Post $post,Request $request)
     {
-        $form = $this->createForm(PostFormType::class, $post);
+        $form = $this->createForm(PostFormType::class, $post, [
+            'genres' => $entityManager->getRepository(Genre::class)->findAll(), // Meneruskan daftar genre
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

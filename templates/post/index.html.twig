@@ -7,7 +7,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td>id</td>
+                <td>no</td>
                 <td>title</td>
                 <td>genre</td>
                 <td>action</td>
@@ -16,9 +16,9 @@
 
         <tbody>
            
-            {% for post in posts %}
+            {% for key, post in posts %}
             <tr>
-                <td>{{post.id}}</td>
+                <td>{{key + 1}}</td>
                 <td><a href="{{path('post.show',{id:post.id})}}">{{post.title}}</a></td>
                 <td>{{post.genre.name}}</td>
                 <td>
