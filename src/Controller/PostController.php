@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Post;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PostRepository;
+use App\Form\PostFormType;
 
 
 #[Route('/post', name: 'post.')]
@@ -20,30 +21,34 @@ class PostController extends AbstractController
     public function index(EntityManagerInterface $entityManager)
     {
         $posts = $entityManager->getRepository(Post::class)->findAll();
-        dump($posts);
         return $this->render('post/index.html.twig', [
             'posts' => $posts,
         ]);
     }
 
-    // http://127.0.0.1:8000/post/create
     #[Route('/create', name: 'create')]
-    public function create(EntityManagerInterface $entityManager)
+    public function create(EntityManagerInterface $entityManager, Request $request)
     {
 
         $post = new Post();
 
-        $post->setTitle('illit lucky girl syndrome enak juga loh lagunya!!!');
 
-        $entityManager->persist($post);
+        $form = $this->createForm(PostFormType::class, $post);
 
-        $entityManager->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form->getData();
+            $entityManager->persist($post);
 
-        return new Response('post was created !!!');
+            $entityManager->flush();
+
+            return $this->redirectToRoute('post.index');
+        }
+        return $this->render('post/create.html.twig',['form'=>$form]);
+
     }
 
 
-    // http://127.0.0.1:8000/post/show/4
     #[Route('/show/{id}', name: 'show')]
     public function show(Post $post)
     {
