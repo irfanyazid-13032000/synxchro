@@ -16,7 +16,6 @@ use App\Form\PostFormType;
 class PostController extends AbstractController
 {
 
-    // http://127.0.0.1:8000/post
     #[Route('/', name: 'index')]
     public function index(EntityManagerInterface $entityManager)
     {
@@ -31,7 +30,6 @@ class PostController extends AbstractController
     {
 
         $post = new Post();
-
 
         $form = $this->createForm(PostFormType::class, $post);
 
@@ -56,6 +54,25 @@ class PostController extends AbstractController
             'post'=>$post
         ]);
     }
+
+
+    #[Route('/update/{id}', name: 'update')]
+    public function update(EntityManagerInterface $entityManager, Post $post,Request $request)
+    {
+        $form = $this->createForm(PostFormType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('post.index');
+        }
+
+
+        return $this->render('post/create.html.twig',['form'=>$form]);
+    }
+
+
 
 
     #[Route('/delete/{id}', name: 'delete')]

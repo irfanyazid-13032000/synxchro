@@ -9,7 +9,7 @@
             <tr>
                 <td>id</td>
                 <td>title</td>
-                <td>delete</td>
+                <td>action</td>
             </tr>
         </thead>
 
@@ -19,7 +19,10 @@
             <tr>
                 <td>{{post.id}}</td>
                 <td><a href="{{path('post.show',{id:post.id})}}">{{post.title}}</a></td>
-                <td><a href="{{path('post.delete',{id:post.id})}}" class="btn btn-success">delete</a></td>
+                <td>
+                    <a href="{{path('post.delete',{id:post.id})}}" class="btn btn-success">delete</a>
+                    <a href="{{path('post.update',{id:post.id})}}" class="btn btn-dark">update</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
