@@ -19,7 +19,7 @@ class PostController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(EntityManagerInterface $entityManager)
     {
-        $posts = $entityManager->getRepository(Post::class)->findAll();
+        $posts = $entityManager->getRepository(Post::class)->findAllWithGenre(); // Menggunakan custom repository method untuk mengambil post dengan genre
         return $this->render('post/index.html.twig', [
             'posts' => $posts,
         ]);

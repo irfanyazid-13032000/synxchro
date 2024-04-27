@@ -16,6 +16,10 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[ORM\ManyToOne(targetEntity: Genre::class)]
+    private $genre;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +33,30 @@ class Post
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getGenreId(): ?Genre
+    {
+        return $this->genreId;
+    }
+
+    public function setGenreId(?Genre $genreId): static
+    {
+        $this->genreId = $genreId;
+
+        return $this;
+    }
+
+    public function getGenre(): ?Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?Genre $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }

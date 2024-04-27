@@ -24,6 +24,15 @@ class PostRepository extends ServiceEntityRepository
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
+
+        public function findAllWithGenre()
+        {
+            return $this->createQueryBuilder('p')
+                ->leftJoin('p.genre', 'g')
+                ->addSelect('g')
+                ->getQuery()
+                ->getResult();
+        }
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('p')
